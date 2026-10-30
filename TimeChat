@@ -1,0 +1,45 @@
+import requests
+import datetime
+
+url = "http://(ip):(host)/v1/chat/completions" # 确认API地址，一般只要改前面的ip地址和端口号(host)
+model_name = " name "   # 确认你的模型名字
+
+# 初始化聊天记录
+system_prompt = """ 提   示   词    """# 写入提示词，可多行
+messages = [
+    {"role": "system", "content": system_prompt}
+]
+
+print("【系统提示】连接成功！输入 'quit' 或 'exit' 可以退出聊天。")
+
+while True:
+
+    user_input = input("\n用户：")   # 可在这改你的名字
+    if user_input.lower() in ['quit', 'exit']:
+        print("再见")
+        break
+
+   
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # 每次你说话时，重新获取一次当前系统时间
+    messages.append({
+        "role": "user", 
+        "content": f"[系统提示：当前现实时间是 {now}] {user_input}"
+    })
+
+    data = {
+        "model": model_name,
+        "messages": messages,
+        "temperature": 0.8    # 可改温度，温度越高，随机性越高
+    }
+
+    try:
+        response = requests.post(url, json=data)
+        reply = response.json()['choices'][0]['message']['content']
+        print(f"\n ai：{reply}")   # 可改ai名字
+        messages.append({
+            "role": "assistant", 
+            "content": reply
+        })
+        
+    except Exception as e:
+        print(f"\n[连接出错]：{e}")
