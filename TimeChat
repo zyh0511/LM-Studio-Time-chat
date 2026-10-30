@@ -1,8 +1,8 @@
 import requests
 import datetime
 
-url = "http://(ip):(host)/v1/chat/completions" # 确认API地址，一般只要改前面的ip地址和端口号(host)
-model_name = " name "   # 确认你的模型名字
+url = "http://127.0.0.1:1234/v1/chat/completions"  # 确认API地址，一般只要改前面的ip地址和端口号(host)，默认使用 LM Studio 的本地地址，用户如果需要可以自己改
+model_name = "qwen2.5-14b-instruct-abliterated"  # 确认你的模型名字，请确保替换为你 LM Studio 里的真实模型名
 
 # 初始化聊天记录
 system_prompt = """ 提   示   词    """# 写入提示词，可多行
